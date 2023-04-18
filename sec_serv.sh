@@ -52,6 +52,31 @@ echo " "
 echo -e "${red}[-] Uninstalling non-secure services (telnet)...${endcolor}"
 apt --purge remove telnetd -y 1>&- 2>&-
 
+### INSTALL VPN L2TP & OPENVPN ###
+#VPN services to connect to remote networks
+echo " "
+echo -e "${magenta}[+] Installing VPN services: L2TP & OpenVPN ${endcolor}"
+apt install network-manager-l2tp openvpn -y 1>&-
+#ask
+echo " "
+echo -e "${yellow}[?] Do you want to set up a L2TP connection? [y/n] ${endcolor}"
+read answer
+if [[ "$answer" == "y" ]]; then
+        echo " "
+        echo -e "${yellow}[?] Name of your VPN connection:  $endcolor"
+        read VPN_name
+        echo -e "${yellow}[?] IP/Domain gateway: $endcolor"
+        read gateway
+        echo -e "${yellow}[?] IPsec key: $endcolor"
+        read -s ipsec
+        echo -e "${yellow}[?] VPN Username: $endcolor"
+        read username
+        nmcli c add con-name $VPN_name type vpn vpn-type l2tp vpn.data 'gateway= $gateway, ipsec-enabled=yes, ipsec-psk= $ipsec, password-flags=2, user= $username'
+        echo "Please, enter the following command on completion if you want to bring up the VPN connection: sudo nmcli c up $VPN_name --ask"
+else
+        echo "It's okey, maybe later"
+fi
+
 
 ### INSTALL NETWORK TOOLS ###
 #some networks tools to make troubleshooting in case it is necesary
