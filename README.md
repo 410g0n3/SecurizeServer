@@ -1,4 +1,7 @@
 # SecurizeServer
+<a href="https://www.gnu.org/software/bash/"><img alt="language" src="https://img.shields.io/badge/Lang-Bash-blue.svg"></a>
+<img alt="version" src="https://img.shields.io/badge/Version-1.3-green.svg">
+
 Script to automate some configurations in Linux-based system deployments
 
 ## Features
